@@ -102,21 +102,22 @@
 class apt_mirror (
   $ensure                    = present,
   $enabled                   = true,
-  $base_path                 = '/var/spool/apt-mirror',
-  $mirror_path               = '$base_path/mirror',
-  $var_path                  = '$base_path/var',
-  $defaultarch               = $::architecture,
-  $cleanscript               = '$var_path/clean.sh',
-  $postmirror_script         = '$var_path/postmirror.sh',
-  $run_postmirror            = 0,
-  $nthreads                  = 20,
-  $tilde                     = 0,
   $wget_limit_rate           = undef,
   $wget_auth_no_challenge    = false,
   $wget_no_check_certificate = false,
   $wget_unlink               = false
 ) {
 
+  include apt_mirror::params
+  $base_path         = $apt_mirror::params::base_path
+  $mirror_path       = $apt_mirror::params::mirror_path
+  $var_path          = $apt_mirror::params::var_path
+  $defaultarch       = $apt_mirror::params::defaultarch
+  $cleanscript       = $apt_mirror::params::cleanscript
+  $postmirror_script = $apt_mirror::params::postmirror_script
+  $run_postmirror    = $apt_mirror::params::run_postmirror
+  $nthreads          = $apt_mirror::params::nthreads
+  $tilde             = $apt_mirror::params::tilde
   package { 'apt-mirror':
     ensure => $ensure,
   }
